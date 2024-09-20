@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Words of Walton</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Dancing+Script:wght@700&display=swap');
+
         body, html {
             height: 100%;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            font-family: Arial, sans-serif;
             background-color: #000;
         }
         .container {
@@ -18,66 +19,129 @@
             width: 100vw;
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: radial-gradient(circle, #FF6600 0%, #FF3300 50%, #CC0000 100%);
         }
-        .circle {
+        .circles {
             position: absolute;
-            border-radius: 50%;
-        }
-        .c1 { width: 200vmax; height: 200vmax; background: radial-gradient(circle, #FF4500 0%, #FF0000 100%); }
-        .c2 { width: 180vmax; height: 180vmax; background: radial-gradient(circle, #FF5722 0%, #FF4500 100%); }
-        .c3 { width: 160vmax; height: 160vmax; background: radial-gradient(circle, #FF7043 0%, #FF5722 100%); }
-        .c4 { width: 140vmax; height: 140vmax; background: radial-gradient(circle, #FF8A65 0%, #FF7043 100%); }
-        .c5 { width: 120vmax; height: 120vmax; background: radial-gradient(circle, #FFAB91 0%, #FF8A65 100%); }
-        .c6 { width: 100vmax; height: 100vmax; background: radial-gradient(circle, #FFCCBC 0%, #FFAB91 100%); }
-        .c7 { width: 80vmax; height: 80vmax; background-color: #000; }
-        .title {
-            position: absolute;
-            top: 20px;
             width: 100%;
+            height: 100%;
+            background: repeating-radial-gradient(
+                circle,
+                transparent 0,
+                transparent 4vmin,
+                rgba(0,0,0,0.1) 4vmin,
+                rgba(0,0,0,0.1) 8vmin
+            );
+        }
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2vh;
+        }
+        .title {
+            color: #FFF;
+            font-family: 'Alfa Slab One', cursive;
+            font-size: calc(1rem + 3vw);
+            font-weight: 900;
             text-align: center;
-            color: white;
-            font-size: 5vmin;
-            font-weight: bold;
-            z-index: 20;
+            white-space: nowrap;
+            text-shadow: 
+                0.07em 0.07em 0 #000,
+                0.14em 0.14em 0 #000,
+                0.21em 0.21em 0 #000;
+            -webkit-text-stroke: 0.08em #000;
+            transform: perspective(100px) rotateX(10deg);
+            letter-spacing: 0.05em;
+            animation: dropIn 1.5s ease-out;
+        }
+        @keyframes dropIn {
+            0% {
+                transform: translateY(-100vh) perspective(100px) rotateX(10deg);
+            }
+            70% {
+                transform: translateY(5vh) perspective(100px) rotateX(10deg);
+            }
+            100% {
+                transform: translateY(0) perspective(100px) rotateX(10deg);
+            }
+        }
+        .center {
+            width: 60vmin;
+            height: 60vmin;
+            max-width: 80vw;
+            max-height: 80vw;
+            background-color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10vmin 5vmin rgba(0,0,0,0.7);
         }
         #quote {
-            position: absolute;
             color: white;
-            font-size: 4vmin;
-            font-weight: bold;
+            font-family: 'Dancing Script', cursive;
+            font-size: calc(0.8rem + 1.5vw);
             text-align: center;
             max-width: 80%;
-            z-index: 10;
+            padding: 2vmin;
+            font-style: italic;
+            transform: skew(-15deg);
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        @media (max-width: 600px) {
+            .title {
+                font-size: calc(1rem + 4vw);
+            }
+            #quote {
+                font-size: calc(0.8rem + 2vw);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .title {
+                font-size: calc(1rem + 2.5vw);
+            }
+            #quote {
+                font-size: calc(0.8rem + 1vw);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="title">Words of Walton</div>
-        <div class="circle c1"></div>
-        <div class="circle c2"></div>
-        <div class="circle c3"></div>
-        <div class="circle c4"></div>
-        <div class="circle c5"></div>
-        <div class="circle c6"></div>
-        <div class="circle c7"></div>
-        <div id="quote"></div>
+        <div class="circles"></div>
+        <div class="content-wrapper">
+            <div class="title">WORDS OF WALTON</div>
+            <div class="center">
+                <div id="quote"></div>
+            </div>
+        </div>
     </div>
 
     <script>
         const quotes = [
-            "Example quote 1",
+            "That's all Folks!",
             "Example quote 2",
             "Example quote 3",
-            // Add your own quotes here
+            // Add more quotes here
         ];
 
         function displayRandomQuote() {
             const quoteElement = document.getElementById('quote');
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            quoteElement.textContent = quotes[randomIndex];
+            quoteElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * quotes.length);
+                quoteElement.textContent = quotes[randomIndex];
+                quoteElement.style.opacity = '1';
+            }, 500);
         }
 
         displayRandomQuote();
